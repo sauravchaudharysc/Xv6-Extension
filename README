@@ -1,3 +1,8 @@
+# 🚀 Extending xv6 to Limitless Horizons 🌌
+
+**NOTE:** We are expanding the capabilities of xv6 with exciting new features such as the `ps` and `clear` commands, with more to come. Our goal is to push the boundaries of xv6, transforming it from a foundational operating system into a versatile platform with enhanced functionality and usability for developers and enthusiasts alike.
+
+
 NOTE: we have stopped maintaining the x86 version of xv6, and switched
 our efforts to the RISC-V version
 (https://github.com/mit-pdos/xv6-riscv.git)
