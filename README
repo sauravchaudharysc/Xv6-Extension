@@ -1,8 +1,35 @@
-# 🚀 Extending xv6 to Limitless Horizons 🌌
+# Extending xv6 to Limitless Horizons 🌌 🚀 
+
+## Overview
+This project extends the capabilities of the **xv6** operating system with key features aimed at improving its functionality and usability. The primary additions include **threads**, **locks**, and the introduction of useful user commands such as `ps` and `clear`. These features make xv6 a more versatile platform for developers and enthusiasts alike, allowing for better multitasking, synchronization, and a cleaner user interface.
+
+## Key Features
+- **Threads**: Introduced lightweight threads, enabling concurrent execution of tasks within a process.
+- **Locks**: Implemented locks to ensure safe concurrent access to shared resources, preventing race conditions and ensuring thread safety.
+- **`ps` Command**: Added a process status command (`ps`) to display a list of all currently running processes, their IDs, and other relevant information.
+- **`clear` Command**: Implemented the `clear` command to clear the terminal screen, providing a cleaner workspace.
+
+## Setup
+To get started with the extended xv6, follow these instructions to build and run the system.
+
+### Prerequisites
+- **Unix-like environment** (Linux, macOS, or Windows with WSL)
+- **Make**: Tool for building the operating system
+
+### Steps to Build and Run
+1. **Clone the Repository**:
+   ```bash
+   git clone https://github.com/sauravchaudharysc/Xv6-Extension.git
+   cd Xv6-Extension
+2. **Open Terminal and Hit make qemu-nox**
+
+3. **Running the Thread and Lock Test: Once xv6 is running, you can test the implementation by running the testthreads program.**
 
 **NOTE:** We are expanding the capabilities of xv6 with exciting new features such as the `ps` and `clear` commands, with more to come. Our goal is to push the boundaries of xv6, transforming it from a foundational operating system into a versatile platform with enhanced functionality and usability for developers and enthusiasts alike.
 
 
+
+## From XV6 Authors : 
 NOTE: we have stopped maintaining the x86 version of xv6, and switched
 our efforts to the RISC-V version
 (https://github.com/mit-pdos/xv6-riscv.git)

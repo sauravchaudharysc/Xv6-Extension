@@ -105,7 +105,8 @@ extern int sys_write(void);
 extern int sys_uptime(void);
 extern int sys_ps(void);
 extern int sys_clear(void);
-
+extern int sys_clone(void);
+extern int sys_join(void);
 
 
 static int (*syscalls[])(void) = {
@@ -132,6 +133,8 @@ static int (*syscalls[])(void) = {
 [SYS_close]   sys_close,
 [SYS_ps]      sys_ps,
 [SYS_clear]   sys_clear,
+[SYS_clone]   sys_clone,
+[SYS_join]    sys_join,
 };
 
 void
