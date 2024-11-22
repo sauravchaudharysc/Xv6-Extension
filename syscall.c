@@ -107,6 +107,7 @@ extern int sys_ps(void);
 extern int sys_clear(void);
 extern int sys_clone(void);
 extern int sys_join(void);
+extern int sys_getNumFreePages(void);
 
 
 static int (*syscalls[])(void) = {
@@ -135,6 +136,7 @@ static int (*syscalls[])(void) = {
 [SYS_clear]   sys_clear,
 [SYS_clone]   sys_clone,
 [SYS_join]    sys_join,
+[SYS_getNumFreePages] sys_getNumFreePages
 };
 
 void

@@ -667,3 +667,8 @@ for(p = ptable.proc; p < &ptable.proc[NPROC]; p++){
 release(&ptable.lock);
 return 22;
 }
+
+int handle_pgflt(uint addr){
+  struct proc *curproc = myproc();
+  return handle_pgflt_helper(curproc, addr);
+}

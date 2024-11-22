@@ -24,3 +24,4 @@
 #define SYS_clear  23  
 #define SYS_clone  24
 #define SYS_join   25
+#define SYS_getNumFreePages 26

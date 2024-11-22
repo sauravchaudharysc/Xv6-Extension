@@ -317,8 +317,9 @@ copyuvm(pde_t *pgdir, uint sz)
 {
   pde_t *d;
   pte_t *pte;
-  uint pa, i, flags;
-  char *mem;
+  uint pa, i;
+  uint flags;
+  // char *mem;
 
   if((d = setupkvm()) == 0)
     return 0;
@@ -327,13 +328,22 @@ copyuvm(pde_t *pgdir, uint sz)
       panic("copyuvm: pte should exist");
     if(!(*pte & PTE_P))
       panic("copyuvm: page not present");
+
+    // if(!(*pte & PTE_U))
+	// 	cprintf("[debug] copyuvm: page not present addr: %x\n", i);
     pa = PTE_ADDR(*pte);
+	// cprintf("pte: %x, pa: %x, i: 
+	*pte &= ~PTE_W;
+	*pte |= PTE_COW_W;
     flags = PTE_FLAGS(*pte);
-    if((mem = kalloc()) == 0)
-      goto bad;
-    memmove(mem, (char*)P2V(pa), PGSIZE);
-    if(mappages(d, (void*)i, PGSIZE, V2P(mem), flags) < 0) {
-      kfree(mem);
+	// cprintf("copyuvm: %x\n", *pte);
+	incrementRefCount(P2V(pa));
+	lcr3(V2P(pgdir));
+    // if((mem = kalloc()) == 0)
+    //   goto bad;
+    // memmove(mem, (char*)P2V(pa), PGSIZE);
+    if(mappages(d, (void*)i, PGSIZE, pa, flags) < 0) {
+      kfree(P2V(pa));
       goto bad;
     }
   }
@@ -392,3 +402,46 @@ copyout(pde_t *pgdir, uint va, void *p, uint len)
 //PAGEBREAK!
 // Blank page.
 
+int handle_pgflt_helper(struct proc* curproc, uint addr){
+	// cprintf("GOT Page fault at address %x to resolve for pid %d\n", addr, curproc->pid);
+	pte_t *pte;
+	pte = walkpgdir(curproc->pgdir, (void*)addr, 0);
+	char* mem;
+	uint pa;
+	// cprintf("Page fault at address %x\n", addr);
+	if(pte == 0)
+	{
+		cprintf("Page fault at address %x\n", addr);
+		panic("pagefault handler : pte unmapped");
+	}
+	if(!((*pte) & PTE_U))
+	{
+		cprintf("Page fault at kernel address %x\n", addr);
+		panic("pagefault handler");
+	}
+	if(!((*pte) & PTE_P))
+	{
+		cprintf("Page fault at invalid address %x\n", addr);
+		panic("pagefault handler");
+	}
+	if(!((*pte) & PTE_W) && !((*pte) & PTE_COW_W))
+	{
+		cprintf("Page fault at read-only address %x\n", addr);
+		panic("pagefault handler");
+	}
+    pa = PTE_ADDR(*pte);
+    if((mem = kalloc()) == 0){
+		cprintf("Page fault at address %x\n", addr);
+		panic("pagefault handler");
+	}
+    memmove(mem, (char*)P2V(pa), PGSIZE);
+	kfree(P2V(pa));
+	if((*pte) & PTE_U)
+		*pte = V2P((uint)mem) | PTE_P | PTE_W | PTE_U;
+	else
+		*pte = V2P((uint)mem) | PTE_P | PTE_W;
+	// lcr3(V2P(curproc->pgdir));
+	switchuvm(curproc);
+	// cprintf("Page fault at address %x resolved for pid %d\n", addr, curproc->pid);
+	return 0;
+}

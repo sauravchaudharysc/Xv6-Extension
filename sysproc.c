@@ -120,3 +120,9 @@ sys_join(void)
   stack = (void**) stackArg;
   return join(stack);
 }
+
+int 
+sys_getNumFreePages(void)
+{
+  return getNumFreePages();
+}
