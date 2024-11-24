@@ -27,11 +27,13 @@ int getpid(void);
 char* sbrk(int);
 int sleep(int);
 int uptime(void);
-int ps(void);
 int clear(void);
 int clone(void (*start_routine)(void*,void*), void *, void *, void *);
 int join(void**);
 int getNumFreePages(void);
+int waitx(int*, int*);
+int getps(void);
+int set_priority(int , int );
 
 // ulib.c
 int stat(const char*, struct stat*);

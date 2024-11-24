@@ -25,3 +25,6 @@
 #define SYS_clone  24
 #define SYS_join   25
 #define SYS_getNumFreePages 26
+#define SYS_waitx  27
+#define SYS_getps  28
+#define SYS_set_priority  29
